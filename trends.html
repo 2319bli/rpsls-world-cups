@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPSLS World Cups</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Lexend', sans-serif; 
+            margin: 0; 
+            text-align: center;
+        }
+        .header {
+            background-color: #4a90e2;
+            padding: 10px 20px;
+            color: white;
+            display: flex;
+            align-items: center;
+        }
+        .logo {
+            height: 60px;
+            margin-right: 20px;
+            border-radius: 50%;
+        }
+        .header-text {
+            text-align: center;
+            flex-grow: 1;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        .navigation {
+            margin-top: 10px;
+        }
+        .navigation a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1.1em;
+        }
+        .main-content {
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .chart-container {
+            width: 80%;
+            max-width: 900px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="logo.jpg" alt="RPSLS Logo" class="logo">
+        <div class="header-text">
+            <h1>RPSLS World Cups</h1>
+            <div class="navigation">
+                <a href="main.html">Scoreboard</a>
+                <a href="past_results.html">Past Results</a>
+                <a href="trends.html">Trends</a>
+                <a href="other_world_cups.html">Other World Cups</a>
+                <a href="about.html">About</a>
+            </div>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="chart-container">
+            <canvas id="trendsChart"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('trendsChart').getContext('2d');
+        const trendsChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['WC #1', 'WC #2', 'WC #3', 'WC #4', 'WC #5', 'WC #6', 'WC #7', 'WC #8', 'WC #9'],
+                datasets: [
+                    {
+                        label: 'Raafey',
+                        data: [102, 101, 100, 100, 102, 101, 87, 81, 94],
+                        borderColor: '#FF0000',
+                        backgroundColor: 'rgba(255, 0, 0, 0.1)',
+                        fill: false,
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Sharath',
+                        data: [99, 94, 76, 88, 83, null, null, 93, 83],
+                        borderColor: '#FF00FF',
+                        backgroundColor: 'rgba(255, 0, 255, 0.1)',
+                        fill: false,
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Ke Chen',
+                        data: [73, 86, 92, 99, 85, 98, 100, 92, 100],
+                        borderColor: '#1188AA',
+                        backgroundColor: 'rgba(17, 136, 170, 0.1)',
+                        fill: false,
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Boyi',
+                        data: [98, 91, 64, 96, 96, 95, 98, 101, 82],
+                        borderColor: '#FFCC00',
+                        backgroundColor: 'rgba(255, 204, 0, 0.1)',
+                        fill: false,
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Xander',
+                        data: [null, null, 82, null, null, 83, 93, 90, 82],
+                        borderColor: 'green',
+                        backgroundColor: 'rgba(0, 128, 0, 0.1)',
+                        fill: false,
+                        tension: 0.1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Player Scores Over Time'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: 'Score'
+                        }
+                    },
+                    x: {
+                         title: {
+                            display: true,
+                            text: 'World Cup'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html> 

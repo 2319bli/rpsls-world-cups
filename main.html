@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPSLS World Cups</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Lexend', sans-serif; 
+            margin: 0;
+            text-align: center;
+        }
+        .header {
+            background-color: #4a90e2;
+            padding: 10px 20px;
+            color: white;
+            display: flex;
+            align-items: center;
+        }
+        .logo {
+            height: 60px;
+            margin-right: 20px;
+            border-radius: 50%;
+        }
+        .header-text {
+            text-align: center;
+            flex-grow: 1;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        .navigation {
+            margin-top: 10px;
+        }
+        .navigation a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1.1em;
+        }
+        .main-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .scoreboard { margin-bottom: 20px; }
+        .player { margin: 10px 0; }
+        button { margin: 0 2px; }
+        #winner { font-size: 1.2em; color: green; margin-top: 20px; }
+        h1 { font-size: 2.5em; }
+        .bar-chart-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-around;
+            width: 60%;
+            height: 360px;
+            border: 1px solid #ccc;
+            align-items: flex-end;
+            padding: 10px;
+            padding-bottom: 10px;
+            box-sizing: border-box;
+            position: relative;
+            margin-bottom: 36px; /* extra space for names below box */
+        }
+        .player-bar-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 18%;
+            position: relative;
+            height: 100%;
+            justify-content: flex-end;
+            z-index: 1;
+        }
+        .bar {
+            width: 100%;
+            height: 0;
+            transition: height 0.3s ease-in-out;
+        }
+        /* Hide old bar labels */
+        .bar-label { display: none; }
+        /* Grid lines */
+        .grid-line {
+            position: absolute;
+            left: 10px; /* align inside padding */
+            right: 10px;
+            border-top: 1px dashed rgba(0,0,0,0.25);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .grid-label {
+            position: absolute;
+            right: 12px;
+            top: -9px; /* sit on the line */
+            font-size: 0.75em;
+            color: #666;
+            background: rgba(255,255,255,0.7);
+            padding: 0 3px;
+            border-radius: 3px;
+        }
+        .r-bar { background-color: #FF0000; }
+        .s-bar { background-color: #FF00FF; }
+        .k-bar { background-color: #1188AA; }
+        .b-bar { background-color: #FFCC00; }
+        .u-bar { background-color: green; }
+        .player-name {
+            position: absolute;
+            bottom: -32px; /* further below the box */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        .player-name-r { color: #FF0000; }
+        .player-name-s { color: #FF00FF; }
+        .player-name-k { color: #1188AA; }
+        .player-name-b { color: #FFCC00; }
+        .player-name-u { color: green; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="logo.jpg" alt="RPSLS Logo" class="logo">
+        <div class="header-text">
+            <h1>RPSLS World Cups</h1>
+            <div class="navigation">
+                <a href="main.html">Scoreboard</a>
+                <a href="past_results.html">Past Results</a>
+                <a href="trends.html">Trends</a>
+                <a href="other_world_cups.html">Other World Cups</a>
+                <a href="about.html">About</a>
+            </div>
+        </div>
+    </div>
+    <div class="main-content">
+        <h2>Scoreboard</h2>
+        <table style="border-collapse: collapse; margin-top: 10px; width: 60%;">
+            <thead>
+                <tr>
+                    <th style="padding: 4px 8px;">Player</th>
+                    <th style="padding: 4px 8px;">+1</th>
+                    <th style="padding: 4px 8px;">+2</th>
+                    <th style="padding: 4px 8px;">+3</th>
+                    <th style="padding: 4px 8px;">+4</th>
+                    <th style="padding: 4px 8px;">-1</th>
+                    <th style="padding: 4px 8px;">Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong class="player-name-r">Raafey</strong></td>
+                    <td><button onclick="change('r', 1)">+1</button></td>
+                    <td><button onclick="change('r', 2)">+2</button></td>
+                    <td><button onclick="change('r', 3)">+3</button></td>
+                    <td><button onclick="change('r', 4)">+4</button></td>
+                    <td><button onclick="change('r', -1)">-1</button></td>
+                    <td><span id="r">0</span></td>
+                </tr>
+                <tr>
+                    <td><strong class="player-name-s">Sharath</strong></td>
+                    <td><button onclick="change('s', 1)">+1</button></td>
+                    <td><button onclick="change('s', 2)">+2</button></td>
+                    <td><button onclick="change('s', 3)">+3</button></td>
+                    <td><button onclick="change('s', 4)">+4</button></td>
+                    <td><button onclick="change('s', -1)">-1</button></td>
+                    <td><span id="s">0</span></td>
+                </tr>
+                <tr>
+                    <td><strong class="player-name-k">Ke Chen</strong></td>
+                    <td><button onclick="change('k', 1)">+1</button></td>
+                    <td><button onclick="change('k', 2)">+2</button></td>
+                    <td><button onclick="change('k', 3)">+3</button></td>
+                    <td><button onclick="change('k', 4)">+4</button></td>
+                    <td><button onclick="change('k', -1)">-1</button></td>
+                    <td><span id="k">0</span></td>
+                </tr>
+                <tr>
+                    <td><strong class="player-name-b">Boyi</strong></td>
+                    <td><button onclick="change('b', 1)">+1</button></td>
+                    <td><button onclick="change('b', 2)">+2</button></td>
+                    <td><button onclick="change('b', 3)">+3</button></td>
+                    <td><button onclick="change('b', 4)">+4</button></td>
+                    <td><button onclick="change('b', -1)">-1</button></td>
+                    <td><span id="b">0</span></td>
+                </tr>
+                <tr>
+                    <td><strong class="player-name-u">Xander</strong></td>
+                    <td><button onclick="change('u', 1)">+1</button></td>
+                    <td><button onclick="change('u', 2)">+2</button></td>
+                    <td><button onclick="change('u', 3)">+3</button></td>
+                    <td><button onclick="change('u', 4)">+4</button></td>
+                    <td><button onclick="change('u', -1)">-1</button></td>
+                    <td><span id="u">0</span></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="bar-chart-container">
+            <!-- Grid Lines -->
+            <div class="grid-line" id="grid-20"><span class="grid-label">20</span></div>
+            <div class="grid-line" id="grid-40"><span class="grid-label">40</span></div>
+            <div class="grid-line" id="grid-60"><span class="grid-label">60</span></div>
+            <div class="grid-line" id="grid-80"><span class="grid-label">80</span></div>
+            <div class="grid-line" id="grid-100"><span class="grid-label">100</span></div>
+            <div class="player-bar-container">
+                <div class="bar r-bar" id="r-bar"></div>
+                <div class="player-name player-name-r">Raafey</div>
+            </div>
+            <div class="player-bar-container">
+                <div class="bar s-bar" id="s-bar"></div>
+                <div class="player-name player-name-s">Sharath</div>
+            </div>
+            <div class="player-bar-container">
+                <div class="bar k-bar" id="k-bar"></div>
+                <div class="player-name player-name-k">Ke Chen</div>
+            </div>
+            <div class="player-bar-container">
+                <div class="bar b-bar" id="b-bar"></div>
+                <div class="player-name player-name-b">Boyi</div>
+            </div>
+            <div class="player-bar-container">
+                <div class="bar u-bar" id="u-bar"></div>
+                <div class="player-name player-name-u">Xander</div>
+            </div>
+        </div>
+        <div id="winner"></div>
+    </div>
+    <script>
+        let scores = { r: 0, s: 0, k: 0, b: 0, u: 0 };
+        let gameOver = false;
+        const idk = [
+            'Boyi wins! Pr',
+            'Raafey wins! √SURDS',
+            'Sharath wins! (insert watermelon here)',
+            'Ke Chen wins! Ga',
+            'Xander wins! Godzilla battle line'
+        ];
+        function updateScores() {
+            document.getElementById('r').textContent = scores.r;
+            document.getElementById('s').textContent = scores.s;
+            document.getElementById('k').textContent = scores.k;
+            document.getElementById('b').textContent = scores.b;
+            document.getElementById('u').textContent = scores.u;
+
+            const maxScore = 100;
+            const container = document.querySelector('.bar-chart-container');
+            const styles = container ? getComputedStyle(container) : null;
+            const paddingTop = styles ? parseFloat(styles.paddingTop) || 0 : 10;
+            const paddingBottom = styles ? parseFloat(styles.paddingBottom) || 0 : 10;
+            const chartHeight = container ? (container.clientHeight - paddingTop - paddingBottom) : 280;
+
+            const setBar = (key) => {
+                const value = Math.min(scores[key], maxScore);
+                const heightPx = (value / maxScore) * chartHeight;
+                document.getElementById(`${key}-bar`).style.height = `${heightPx}px`;
+            };
+
+            setBar('r');
+            setBar('s');
+            setBar('k');
+            setBar('b');
+            setBar('u');
+
+            // Position grid lines using measured paddings
+            const positionLine = (level) => {
+                const el = document.getElementById(`grid-${level}`);
+                if (!el) return;
+                const bottomPx = paddingBottom + (level / maxScore) * chartHeight;
+                el.style.bottom = `${bottomPx}px`;
+            };
+            [20,40,60,80,100].forEach(positionLine);
+        }
+        function checkWinner() {
+            if (scores.r >= 100 || scores.s >= 100 || scores.k >= 100 || scores.b >= 100 || scores.u >= 100) {
+                let h = Math.max(scores.b, scores.r, scores.k, scores.s, scores.u);
+                let winnerMsg = [];
+                if (scores.b === h) winnerMsg.push(idk[0]);
+                if (scores.r === h) winnerMsg.push(idk[1]);
+                if (scores.s === h) winnerMsg.push(idk[2]);
+                if (scores.k === h) winnerMsg.push(idk[3]);
+                if (scores.u === h) winnerMsg.push(idk[4]);
+                document.getElementById('winner').textContent = winnerMsg.join(' | ');
+                // Disable all buttons
+                Array.from(document.getElementsByTagName('button')).forEach(btn => btn.disabled = true);
+                gameOver = true;
+            }
+        }
+        function change(player, delta) {
+            if (gameOver) return;
+            if (scores[player] + delta >= 0) {
+                scores[player] += delta;
+                updateScores();
+                checkWinner();
+            }
+        }
+        updateScores();
+
+        // Hotkeys: r/s/k/b/u control players; modifiers set the delta
+        // No modifier: +1, Shift: +2, Alt/Option: +3, Shift+Alt: +4, Ctrl: -1
+        const keyToPlayer = { r: 'r', s: 's', k: 'k', b: 'b', u: 'u' };
+        window.addEventListener('keydown', (e) => {
+            if (gameOver) return;
+            // Ignore if focused on interactive elements that may need typing
+            const target = e.target;
+            const tag = target && target.tagName ? target.tagName.toLowerCase() : '';
+            if (tag === 'input' || tag === 'textarea' || tag === 'select' || target.isContentEditable) return;
+
+            const key = (e.key || '').toLowerCase();
+            const player = keyToPlayer[key];
+            if (!player) return;
+
+            let delta;
+            if (e.ctrlKey) {
+                delta = -1; // Ctrl takes precedence for decrement
+            } else {
+                delta = 1 + (e.shiftKey ? 1 : 0) + (e.altKey ? 2 : 0);
+            }
+
+            change(player, delta);
+            e.preventDefault();
+        });
+    </script>
+</body>
+</html> 
